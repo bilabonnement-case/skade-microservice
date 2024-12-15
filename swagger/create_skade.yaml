@@ -1,0 +1,43 @@
+create_skade:
+  tags:
+    - Skade
+  summary: Opret en ny skade
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            bil_id:
+              type: integer
+              example: 101
+            stelnummer:
+              type: string
+              example: "WBA1234567890"
+            beskrivelse:
+              type: string
+              example: "Ridse i højre dør"
+            omkostning:
+              type: number
+              example: 1500.75
+            forsikringsstatus:
+              type: string
+              example: "Under behandling"
+            admin_id:
+              type: integer
+              example: 1
+  responses:
+    '201':
+      description: Skade oprettet
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: "Skade oprettet"
+    '500':
+      description: Fejl opstod
+  

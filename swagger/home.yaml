@@ -1,0 +1,26 @@
+home:
+  tags:
+    - General
+  summary: Få en liste over tilgængelige endpoints
+  responses:
+    '200':
+      description: Succes
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              service:
+                type: string
+                example: "Skade-Service"
+              endpoints:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    path:
+                      type: string
+                      example: "/create_skade"
+                    method:
+                      type: string
+                      example: "POST"

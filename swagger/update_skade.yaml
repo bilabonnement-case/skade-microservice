@@ -1,0 +1,51 @@
+update_skade:
+  tags:
+    - Skade
+  summary: Opdater oplysninger for en specifik skade
+  parameters:
+    - in: path
+      name: skade_id
+      schema:
+        type: integer
+      required: true
+      description: Skade ID
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            bil_id:
+              type: integer
+              example: 101
+            stelnummer:
+              type: string
+              example: "WBA1234567890"
+            beskrivelse:
+              type: string
+              example: "Ridse i højre dør"
+            omkostning:
+              type: number
+              example: 1500.75
+            forsikringsstatus:
+              type: string
+              example: "Afsluttet"
+            admin_id:
+              type: integer
+              example: 1
+  responses:
+    '200':
+      description: Skade opdateret
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: "Skade opdateret"
+    '404':
+      description: Skade ikke fundet
+    '500':
+      description: Fejl opstod
