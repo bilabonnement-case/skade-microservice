@@ -1,53 +1,60 @@
-get_skade:
-  tags:
-    - Skade
-  summary: Hent skadeinformation baseret på skade ID
-  description: Hent detaljerede oplysninger om en skade ved hjælp af skade ID.
-  parameters:
-    - in: path
-      name: skade_id
-      schema:
-        type: integer
-      required: true
-      description: Unikt ID for skaden.
-  responses:
-    '200':
-      description: Skade fundet
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              skade_id:
-                type: integer
-                example: 1
-              bil_id:
-                type: integer
-                example: 101
-              stelnummer:
-                type: string
-                example: "WBA1234567890"
-              beskrivelse:
-                type: string
-                example: "Ridse i højre dør"
-              omkostning:
-                type: number
-                example: 1500.75
-              forsikringsstatus:
-                type: string
-                example: "Under behandling"
-              admin_id:
-                type: integer
-                example: 1
-    '404':
-      description: Skade ikke fundet
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              error:
-                type: string
-                example: "Skade ikke fundet"
-    '500':
-      description: Fejl opstod
+tags:
+  - Skade
+summary: Hent skadeinformation baseret på skade ID
+description: Hent detaljerede oplysninger om en skade ved hjælp af skade ID.
+parameters:
+  - in: path
+    name: skade_id
+    schema:
+      type: integer
+    required: true
+    description: Unikt ID for skaden.
+responses:
+  '200':
+    description: Skade fundet
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            skade_id:
+              type: integer
+              example: 1
+            bil_id:
+              type: integer
+              example: 101
+            stelnummer:
+              type: string
+              example: "WBA1234567890"
+            beskrivelse:
+              type: string
+              example: "Ridse i højre dør"
+            omkostning:
+              type: number
+              example: 1500.75
+            forsikringsstatus:
+              type: string
+              example: "Under behandling"
+            admin_id:
+              type: integer
+              example: 1
+  '404':
+    description: Skade ikke fundet
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "Skade ikke fundet"
+  '500':
+    description: Serverfejl
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "En uventet fejl opstod"

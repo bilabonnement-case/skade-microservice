@@ -142,4 +142,4 @@ def delete_skade(skade_id):
     return jsonify({"message": "Skade slettet"}), 200
 
 if __name__ == '__main__':
-    app.run(debug=bool(os.getenv('DEBUG', True)), host='0.0.0.0', port=5004)
+    app.run(debug=bool(int(os.getenv('FLASK_DEBUG', 0))), host='0.0.0.0', port=5004)

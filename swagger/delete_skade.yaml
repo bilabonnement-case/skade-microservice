@@ -1,26 +1,41 @@
-delete_skade:
-  tags:
-    - Skade
-  summary: Slet en specifik skade baseret på skade ID
-  parameters:
-    - in: path
-      name: skade_id
-      schema:
-        type: integer
-      required: true
-      description: Unikt ID for skaden.
-  responses:
-    '200':
-      description: Skade slettet
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              message:
-                type: string
-                example: "Skade slettet"
-    '404':
-      description: Skade ikke fundet
-    '500':
-      description: Fejl opstod
+tags:
+  - Skade
+summary: Slet en specifik skade baseret på skade ID
+parameters:
+  - in: path
+    name: skade_id
+    schema:
+      type: integer
+    required: true
+    description: Unikt ID for skaden.
+responses:
+  '200':
+    description: Skade slettet
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "Skade slettet"
+  '404':
+    description: Skade ikke fundet
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "Skade ikke fundet"
+  '500':
+    description: Serverfejl
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "En uventet fejl opstod"

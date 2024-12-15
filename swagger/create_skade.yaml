@@ -36,7 +36,7 @@ create_skade:
               description: ID for admin-medarbejderen, der håndterer skaden.
   responses:
     '201':
-      description: Skade oprettet
+      description: Skade created successfully
       content:
         application/json:
           schema:
@@ -46,7 +46,7 @@ create_skade:
                 type: string
                 example: "Skade oprettet"
     '400':
-      description: Ugyldige inputdata
+      description: Invalid bil_id or admin_id
       content:
         application/json:
           schema:
@@ -56,4 +56,12 @@ create_skade:
                 type: string
                 example: "Invalid bil_id or admin_id"
     '500':
-      description: Fejl opstod
+      description: Server error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: "An unexpected error occurred"
