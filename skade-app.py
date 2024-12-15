@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, request
 import os
 import sqlite3
+import requests  # Til validering af bil_id og admin_id via HTTP-kald
 from dotenv import load_dotenv
 from flasgger import Swagger, swag_from
 
@@ -19,6 +20,9 @@ swagger = Swagger(app)
 
 DATABASE = "skade-database.db"
 
+BIL_SERVICE_URL = os.getenv("BIL_SERVICE_URL", "http://localhost:5003")  # URL til Bil-microservice
+ADMIN_SERVICE_URL = os.getenv("ADMIN_SERVICE_URL", "http://localhost:5002")  # URL til Admin-microservice
+
 def init_db():
     with sqlite3.connect(DATABASE) as conn:
         cursor = conn.cursor()
@@ -30,12 +34,25 @@ def init_db():
             beskrivelse TEXT,
             omkostning REAL,
             forsikringsstatus TEXT,
-            admin_id INTEGER NOT NULL
+            admin_id INTEGER NOT NULL,
+            FOREIGN KEY (bil_id) REFERENCES bil(bil_id),
+            FOREIGN KEY (admin_id) REFERENCES admin(admin_id)
         )
         """)
         conn.commit()
 
 init_db()
+
+
+# Helper: Valider bil_id via Bil-microservice
+def validate_bil_id(bil_id):
+    response = requests.get(f"{BIL_SERVICE_URL}/get_bil/{bil_id}")
+    return response.status_code == 200
+
+# Helper: Valider admin_id via Admin-microservice
+def validate_admin_id(admin_id):
+    response = requests.get(f"{ADMIN_SERVICE_URL}/get_admin/{admin_id}")
+    return response.status_code == 200
 
 # Home
 @app.route('/')
@@ -56,12 +73,19 @@ def home():
 @swag_from('swagger/create_skade.yaml')
 def create_skade():
     data = request.get_json()
+
     bil_id = data['bil_id']
     stelnummer = data['stelnummer']
     beskrivelse = data.get('beskrivelse', "")
     omkostning = data.get('omkostning', 0.0)
     forsikringsstatus = data.get('forsikringsstatus', "Ikke vurderet")
     admin_id = data['admin_id']
+
+    # Valider bil_id og admin_id
+    if not validate_bil_id(bil_id):
+        return jsonify({"error": "Invalid bil_id"}), 400
+    if not validate_admin_id(admin_id):
+        return jsonify({"error": "Invalid admin_id"}), 400
 
     with sqlite3.connect(DATABASE) as conn:
         cursor = conn.cursor()
@@ -118,4 +142,4 @@ def delete_skade(skade_id):
     return jsonify({"message": "Skade slettet"}), 200
 
 if __name__ == '__main__':
-    app.run(debug=bool(os.getenv('DEBUG')), host='0.0.0.0', port=5004)
+    app.run(debug=bool(os.getenv('DEBUG', True)), host='0.0.0.0', port=5004)

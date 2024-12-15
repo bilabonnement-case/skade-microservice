@@ -8,7 +8,7 @@ delete_skade:
       schema:
         type: integer
       required: true
-      description: Skade ID
+      description: Unikt ID for skaden.
   responses:
     '200':
       description: Skade slettet
@@ -24,4 +24,3 @@ delete_skade:
       description: Skade ikke fundet
     '500':
       description: Fejl opstod
-

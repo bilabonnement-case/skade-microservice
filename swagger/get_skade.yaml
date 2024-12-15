@@ -2,13 +2,14 @@ get_skade:
   tags:
     - Skade
   summary: Hent skadeinformation baseret på skade ID
+  description: Hent detaljerede oplysninger om en skade ved hjælp af skade ID.
   parameters:
     - in: path
       name: skade_id
       schema:
         type: integer
       required: true
-      description: Skade ID
+      description: Unikt ID for skaden.
   responses:
     '200':
       description: Skade fundet
@@ -40,3 +41,13 @@ get_skade:
                 example: 1
     '404':
       description: Skade ikke fundet
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: "Skade ikke fundet"
+    '500':
+      description: Fejl opstod

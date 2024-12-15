@@ -2,13 +2,14 @@ update_skade:
   tags:
     - Skade
   summary: Opdater oplysninger for en specifik skade
+  description: Opdater felterne for en skade ved hjælp af skade ID.
   parameters:
     - in: path
       name: skade_id
       schema:
         type: integer
       required: true
-      description: Skade ID
+      description: Unikt ID for skaden.
   requestBody:
     required: true
     content:
@@ -45,6 +46,8 @@ update_skade:
               message:
                 type: string
                 example: "Skade opdateret"
+    '400':
+      description: Ugyldige inputdata
     '404':
       description: Skade ikke fundet
     '500':
