@@ -49,10 +49,26 @@ def home():
     return jsonify({
         "service": "Skade-Service",
         "endpoints": [
-            {"path": "/create_skade", "method": "POST"},
-            {"path": "/get_skade/<int:skade_id>", "method": "GET"},
-            {"path": "/update_skade/<int:skade_id>", "method": "PUT"},
-            {"path": "/delete_skade/<int:skade_id>", "method": "DELETE"},
+            {
+                "path": "/create_skade",
+                "method": "POST",
+                "description": "Create a new damage report"
+            },
+            {
+                "path": "/get_skade/<int:skade_id>",
+                "method": "GET",
+                "description": "Retrieve a damage report by ID"
+            },
+            {
+                "path": "/update_skade/<int:skade_id>",
+                "method": "PUT",
+                "description": "Update an existing damage report"
+            },
+            {
+                "path": "/delete_skade/<int:skade_id>",
+                "method": "DELETE",
+                "description": "Delete a damage report by ID"
+            }
         ]
     })
 
