@@ -1,86 +1,72 @@
-Skade-Service
-Skade-Service er en Flask-baseret microservice, der håndterer registrering, opdatering og sletning af skader på biler. Tjenesten understøtter CRUD-operationer og har integreret Swagger-dokumentation for API-endepunkter.
+# Skade-Service
 
-Features
-Opret Skade: Opretter nye skader for biler.
-Hent Skade: Henter detaljer for en given skade ved ID.
-Opdater Skade: Opdaterer oplysninger om en eksisterende skade.
-Slet Skade: Sletter en registreret skade.
-Swagger Dokumentation: Swagger UI til udforskning og test af API.
-Krav
-Python Krav
-Python 3.7 eller højere
-Flask
-Flask-Swagger (Flasgger)
-python-dotenv
-Flask-Cors
-Installation af Dependencies
-Installer nødvendige afhængigheder ved at køre:
+Skade-Service is a Flask-based microservice that handles car damage management. It includes endpoints for creating damage reports, retrieving damage details, updating existing entries, and deleting records. The service uses SQLite for database management and provides API documentation via Swagger.
 
-bash
-Copy code
-pip install -r requirements.txt
-Environment Variables
-Opret en .env-fil i roden af projektet og angiv følgende miljøvariabler:
+## Features
+	•	Create Subscriptions: Add new subscriptions with customer details and terms.
+	•	Retrieve Subscriptions: Fetch subscription details by their unique ID.
+	•	Update Subscription Status: Change the status of a subscription (e.g., Active, Inactive, Terminated).
+	•	Subscription Reporting: Generate reports summarizing active, inactive, and terminated subscriptions.
+	•	API Documentation: Integrated Swagger UI for exploring and testing endpoints.
 
-plaintext
-Copy code
-FLASK_DEBUG=1
-DATABASE=/app/data/skade-database.db
-Projektstruktur
-Følgende projektstruktur anvendes:
+## Requirements
 
-plaintext
-Copy code
-.
-├── skade.app.py           # Hoved Flask-applikation
-├── data/
-│   └── skade-database.db  # SQLite database
-├── swagger/               # YAML-filer til Swagger
-│   ├── home.yaml
-│   ├── create_skade.yaml
-│   ├── get_skade.yaml
-│   ├── update_skade.yaml
-│   └── delete_skade.yaml
-├── requirements.txt       # Afhængigheder
-├── .env                   # Miljøvariabler
-└── README.md              # Dokumentation
-Sådan Startes Servicen
-Initialisering af Databasen
-Databasen skade-database.db initialiseres automatisk, når applikationen startes.
+### Python Packages
+	•	Python 3.7 or higher
+	•	Flask
+	•	Flasgger
+	•	Python-Dotenv
+	•	SQLite (built into Python)
 
-Start Flask-Applikationen
-Kør applikationen med:
+### Python Dependencies
 
-bash
-Copy code
-python skade.app.py
-Servicen er tilgængelig på: http://127.0.0.1:5005
+Install the required dependencies using:
+```Pip install -r requirements.txt```
 
-API Endpoints
-GET /
-Beskrivelse: Returnerer en liste over alle tilgængelige endepunkter i servicen.
+### Environment Variables
 
-Respons:
+Create a .env file in the root directory and specify the following:
+```FLASK_DEBUG=1```
+```DATABASE=skade-database.dbb```
 
-json
-Copy code
+## Getting Started
+
+1. Initialize the Database
+The service uses SQLite to store car damage data. The database is automatically initialized when the service starts.
+To reinitialize, you can modify the init_db() function in skade.app.py.
+
+2. Start the Service
+
+Run the Flask application:
+```python skade.app.py```
+The service will be available at: http://127.0.0.1:5005
+
+## API Endpoints
+
+1. GET /
+
+Provides a list of available endpoints in the service.
+
+#### Response Example:
+```
 {
   "service": "Skade-Service",
-  "endpoints": [
+  "available_endpoints": [
     {"path": "/create_skade", "method": "POST", "description": "Create a new damage report"},
     {"path": "/get_skade/<int:skade_id>", "method": "GET", "description": "Retrieve a damage report by ID"},
     {"path": "/update_skade/<int:skade_id>", "method": "PUT", "description": "Update an existing damage report"},
     {"path": "/delete_skade/<int:skade_id>", "method": "DELETE", "description": "Delete a damage report by ID"}
   ]
 }
-POST /create_skade
-Beskrivelse: Opretter en ny skaderegistrering.
 
-Request Body:
+```
 
-json
-Copy code
+2. POST /create_subscription
+
+Creates a new damage report.
+
+#### Request Body:
+```
 {
   "bil_id": 123,
   "stelnummer": "ABC12345DEF67890",
@@ -89,20 +75,21 @@ Copy code
   "forsikringsstatus": "Ikke vurderet",
   "admin_id": 456
 }
-Respons:
+```
 
-json
-Copy code
+#### Response Example:
+```
 {
   "message": "Skade oprettet"
 }
-GET /get_skade/<int:skade_id>
-Beskrivelse: Henter detaljer for en specifik skade.
+```
 
-Respons:
+3. GET /get_skade/<int:skade_id>
 
-json
-Copy code
+Retrieves the details of a damage report by its unique ID.
+
+#### Response Example:
+```
 {
   "skade_id": 1,
   "bil_id": 123,
@@ -112,40 +99,75 @@ Copy code
   "forsikringsstatus": "Ikke vurderet",
   "admin_id": 456
 }
-PUT /update_skade/<int:skade_id>
-Beskrivelse: Opdaterer oplysninger for en eksisterende skade.
+```
 
-Request Body:
+4. PUT /update_skade/<int:skade_id>
 
-json
-Copy code
+Updates an existing damage report.
+
+#### Request Body:
+```
 {
-  "beskrivelse": "Dybe ridser på venstre dør",
+  "beskrivelse": "Dybere ridser på venstre dør",
   "omkostning": 3000.00
 }
-Respons:
+```
 
-json
-Copy code
+#### Response Example:
+```
 {
   "message": "Skade opdateret"
 }
-DELETE /delete_skade/<int:skade_id>
-Beskrivelse: Sletter en skade ved det givne ID.
+```
 
-Respons:
+5. DELETE /delete_skade/<int:skade_id>
 
-json
-Copy code
+Deletes a damage report by its ID.
+
+#### Response Example:
+```
 {
   "message": "Skade slettet"
 }
-Swagger Dokumentation
-Swagger UI er tilgængelig på /apidocs.
-API-specifikationerne findes som YAML-filer i swagger/-mappen.
+```
+## Project Structure
+```
+.
+├── skade.app.py           # Main Flask application
+├── data/
+│   └── skade-database.db  # SQLite database (created automatically)
+├── swagger/               # YAML files for API documentation
+│   ├── create_skade.yaml
+│   ├── get_skade.yaml
+│   ├── update_skade.yaml
+│   ├── delete_skade.yaml
+│   └── home.yaml
+├── requirements.txt       # Python dependencies
+├── .env                   # Environment variables
+└── README.md              # Project documentation
+```
 
-Bidrag
-Du er velkommen til at fork'e repository'et og indsende pull requests. For større ændringer, åbn en issue først for at diskutere ændringerne.
+## Development Notes
 
-Licens
-Dette projekt er licenseret under MIT License. Se LICENSE for detaljer.
+### Swagger Documentation
+	•	Swagger is available at /apidocs.
+	•	API specifications are written in YAML and stored in the swagger/ folder.
+
+### Database Management
+####	•	Initialization: Automatically initializes the database on start.
+####	•	Schema:
+	•	skade_id: Unique ID for damage entry (primary key).
+	•	bil_id: Car ID (foreign key).
+	•	stelnummer: Car chassis number.
+	•	beskrivelse: Description of the damage.
+	•	omkostning: Cost of the repair.
+	•	forsikringsstatus: Insurance status (e.g., "Ikke vurderet").
+	•	admin_id: Administrator ID.
+
+## Contributions
+
+Feel free to fork the repository and submit pull requests. For major changes, open an issue to discuss what you would like to change.
+
+## License
+
+This project is licensed under the MIT License. See LICENSE for more information.
