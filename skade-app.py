@@ -3,9 +3,13 @@ import os
 import sqlite3
 from dotenv import load_dotenv
 from flasgger import Swagger, swag_from
+from flask_cors import CORS
 
 # Load environment variables
 load_dotenv()
+
+app = Flask(__name__)
+CORS(app, resources={r"/*": {"origins": "https://api-gateway.azurewebsites.net"}})
 
 app = Flask(__name__)
 
